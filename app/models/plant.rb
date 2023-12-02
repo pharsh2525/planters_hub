@@ -2,7 +2,7 @@ class Plant < ApplicationRecord
   belongs_to :category
 
   has_many :order_items
-  has_many :plant_images
+  has_many_attached :images
 
   validates :name, presence: true
   validates :description, presence: true
