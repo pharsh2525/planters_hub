@@ -6,8 +6,5 @@ class User < ApplicationRecord
   has_many :orders
   has_many :addresses
 
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
-
   validates :first_name, :last_name, presence: true
 end
