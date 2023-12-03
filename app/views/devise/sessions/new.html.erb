@@ -16,7 +16,7 @@
           <div class="input-group">
             <%= f.password_field :password, id: 'password', autocomplete: "current-password", class: "form-control" %>
             <span class="input-group-text cursor-pointer" id="togglePassword">
-              <i class="fas fa-eye"></i>
+              <i class="bi-eye-slash"></i>
             </span>
           </div>
           <div class="invalid-feedback">
@@ -52,8 +52,8 @@
       password.setAttribute('type', type);
 
       // Toggle the icon
-      togglePassword.querySelector('i').classList.toggle('fa-eye');
-      togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+      togglePassword.querySelector('i').classList.toggle('bi-eye');
+      togglePassword.querySelector('i').classList.toggle('bi-eye-slash');
     });
   });
 </script>
