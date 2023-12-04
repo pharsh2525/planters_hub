@@ -1,0 +1,36 @@
+<%# app/views/carts/_cart_item.html.erb %>
+<% plant = Plant.find(item["plant_id"]) %>
+<div class="card mb-3">
+  <div class="card-body">
+    <div class="row align-items-center">
+      <!-- Product Image -->
+      <div class="col-md-2">
+        <%= image_tag(plant.images.first, class: 'img-fluid rounded') if plant.images.attached? %>
+      </div>
+      <!-- Product Name -->
+      <div class="col-md-4">
+        <h5 class="card-title"><%= plant.name %></h5>
+      </div>
+      <!-- Product Price -->
+      <div class="col-md-2">
+        <p class="card-text"><%= number_to_currency(plant.price) %></p>
+      </div>
+      <!-- Quantity Form -->
+      <div class="col-md-2">
+        <%= form_with(url: update_quantity_cart_path(plant_id: plant.id), method: :patch) do |form| %>
+          <div class="input-group">
+            <%= form.button "-", class: "btn btn-outline-secondary btn-sm", name: "change", value: "decrease" %>
+            <%= form.text_field :quantity, value: item["quantity"], class: 'form-control text-center', readonly: true %>
+            <%= form.button "+", class: "btn btn-outline-secondary btn-sm", name: "change", value: "increase" %>
+          </div>
+        <% end %>
+      </div>
+      <!-- Delete Button -->
+      <div class="col-md-2 text-right">
+        <%= button_to remove_from_cart_path(plant_id: plant.id), method: :delete, class: "btn btn-outline-danger btn-sm" do %>
+          <span class="bi bi-trash"></span>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

@@ -34,12 +34,15 @@
       <p><%= @plant.description %></p>
 
       <!-- Quantity Form -->
-      <div class="input-group mb-3">
-        <button class="btn btn-outline-secondary" type="button" onclick="changeQuantity(-1)">-</button>
-        <input type="text" id="quantity" class="form-control text-center" value="1" style="max-width: 60px;">
-        <button class="btn btn-outline-secondary me-3" type="button" onclick="changeQuantity(1)">+</button>
-        <button class="btn btn-success ml-2" type="button">Add to Cart</button>
-      </div>
+      <%= form_with(url: add_to_cart_path(plant_id: @plant.id), method: :post, id: 'add-to-cart-form') do |form| %>
+        <div class="input-group mb-3">
+          <button class="btn btn-outline-secondary" type="button" onclick="updateQuantity(-1)">-</button>
+          <%= form.text_field :quantity, value: 1, class: 'form-control text-center', min: 1, style: "max-width: 60px;", id: "quantity" %>
+          <button class="btn btn-outline-secondary me-3" type="button" onclick="updateQuantity(1)">+</button>
+          <%= form.hidden_field :plant_id, value: @plant.id %>
+          <%= form.submit "Add to Cart", class: "btn btn-success ml-2" %>
+        </div>
+      <% end %>
 
       <!-- Extra Information -->
       <div class="row">
@@ -47,7 +50,7 @@
           <div class="fw-bold mb-2">We Ship Fast</div>
           <p>Most customers receive their orders in 3-5 business days from purchase.</p>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-6 mt-2">
           <div class="fw-bold mb-2">Healthy Plant Guarantee</div>
           <p>We offer a 14-day healthy plant guarantee on all plants shipped with standard or express.</p>
         </div>
@@ -57,14 +60,13 @@
 </div>
 
 <script>
-  function changeQuantity(change) {
+  function updateQuantity(change) {
     var quantityInput = document.getElementById('quantity');
-    var currentQuantity = parseInt(quantityInput.value, 10);
+    var currentQuantity = parseInt(quantityInput.value);
     var newQuantity = currentQuantity + change;
-
-    // Make sure new quantity is never less than 1
-    newQuantity = newQuantity < 1 ? 1 : newQuantity;
-
+    if (newQuantity < 1) newQuantity = 1; // Ensure the quantity is never less than 1
     quantityInput.value = newQuantity;
   }
+
+  // Optional: Add form submission here if you want to submit the form after quantity update
 </script>

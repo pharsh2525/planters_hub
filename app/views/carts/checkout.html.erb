@@ -1,0 +1,8 @@
+<%# app/views/carts/checkout.html.erb %>
+<div class="container">
+  <h2>Checkout</h2>
+  <%= form_with url: process_checkout_path, method: :post do |form| %>
+    <%# Form fields for checkout details %>
+    <%= form.submit "Place Order", class: "btn btn-success" %>
+  <% end %>
+</div>

@@ -52,7 +52,14 @@
             <!-- ... possibly a sign-up link ... -->
           <% end %>
           <li class="nav-item">
-            <span class="btn btn-outline-success fs-5 m-2"><i class="bi bi-cart3"></i></span>
+            <%= link_to cart_path, class: 'btn btn-outline-success fs-5 m-2' do %>
+              <i class="bi bi-cart3"></i>
+              <% if session[:cart].present? %>
+                <span class="badge bg-secondary">
+                  <%= session[:cart].sum { |item| item['quantity'] } %>
+                </span>
+              <% end %>
+            <% end %>
           </li>
         </ul>
       </div>
