@@ -28,6 +28,7 @@ gem "stimulus-rails"
 gem "jbuilder"
 
 gem 'mini_magick'
+gem 'image_processing'
 gem 'devise'
 
 

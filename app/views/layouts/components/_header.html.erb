@@ -13,7 +13,7 @@
             <%= link_to "Home", root_path, class:"nav-link fs-5 m-2" %>
           </li>
           <li class="nav-item">
-            <a class="nav-link fs-5 m-2" href="#">Plants</a>
+            <%= link_to "Plants", plants_path, class:"nav-link fs-5 m-2" %>
           </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fs-5 m-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -38,7 +38,7 @@
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                 <li>
-                  <%= link_to 'Profile', edit_user_registration_path, class: 'dropdown-item fs-5' %>
+                  <%= link_to 'My Account', my_account_path, class: 'dropdown-item fs-5' %>
                 </li>
                 <li>
                   <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'dropdown-item fs-5' %>

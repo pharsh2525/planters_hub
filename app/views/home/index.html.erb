@@ -1,23 +1,26 @@
-<div class="container mt-5 mb-5">
+<div class="container">
   <header class="text-center">
     <h1>Welcome to PlantersHub!</h1>
     <p class="lead">Find the perfect plant for your space.</p>
   </header>
 
-  <div class="row mt-4">
-    <% @plants.each do |plant| %>
-      <div class="col-md-4 mb-3">
-        <div class="card h-100">
-          <% if plant.images.attached? %>
-            <%= image_tag plant.images.first, class: 'card-img-top img-fluid' %>
+  <div class="container">
+    <div class="row">
+      <% @plants.each do |plant| %>
+        <div class="col-md-3">
+          <%= link_to plant_path(plant), class: 'card h-100 text-decoration-none text-dark' do %>
+            <div class="card h-100">
+              <% if plant.images.attached? %>
+                <%= image_tag plant.images.first, alt: "#{plant.name} image", class: 'card-img-top img-fluid' %>
+              <% end %>
+              <div class="card-body">
+                <h5 class="card-title"><%= plant.name %></h5>
+                <p class="card-price"><%= number_to_currency(plant.price) %></p>
+              </div>
+            </div>
           <% end %>
-          <div class="card-body">
-            <h5 class="card-title"><%= plant.name %></h5>
-            <p class="card-text fs-5"> <%= number_to_currency(plant.price) %></p>
- <!-- Ensure you have a show action set up for plants -->
-          </div>
         </div>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
   </div>
 </div>
