@@ -5,7 +5,7 @@
     <div class="row align-items-center">
       <!-- Product Image -->
       <div class="col-md-2">
-        <%= image_tag(plant.images.first, class: 'img-fluid rounded') if plant.images.attached? %>
+        <%= image_tag(plant.images.first,alt: "#{plant.name} image", class: 'img-fluid rounded') if plant.images.attached? %>
       </div>
       <!-- Product Name -->
       <div class="col-md-4">
