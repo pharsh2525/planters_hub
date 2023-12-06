@@ -28,6 +28,8 @@ ActiveAdmin.register User do
   form do |f|
     f.inputs do
       f.input :email
+      f.input :password
+      f.input :password_confirmation
       f.input :first_name
       f.input :last_name
       f.input :is_admin
@@ -42,13 +44,44 @@ ActiveAdmin.register User do
       row :last_name
       row :is_admin
       # Display other user attributes here
-      panel "Actions" do
-        span link_to "Send Reset Password Instructions", send_reset_password_instructions_admin_user_path(user), method: :post, data: { confirm: "Are you sure you want to send reset password instructions to this user?" }
+    end
+
+    panel "Addresses" do
+      table_for user.addresses do
+        column :street_address
+        column :city
+        column :postal_code
+        column :province do |address|
+          address.province.name # Assuming province is associated with address and has a 'name' attribute
+        end
+        # ... other columns ...
+        column "" do |address|
+          links = []
+          links << link_to("View", admin_address_path(address))
+          links << link_to("Edit", edit_admin_address_path(address))
+          safe_join(links, " | ")
+        end
       end
     end
+
+    panel "Orders" do
+      table_for user.orders do
+        column :id
+        column :status
+        column :total
+        column :created_at
+        # ... other columns ...
+        column "" do |order|
+          links = []
+          links << link_to("View", admin_order_path(order))
+          links << link_to("Edit", edit_admin_order_path(order))
+          safe_join(links, " | ")
+        end
+      end
+    end
+
     active_admin_comments
   end
-
   controller do
     def update
       if params[:user][:password].blank? && params[:user][:password_confirmation].blank?
