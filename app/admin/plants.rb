@@ -2,14 +2,16 @@ ActiveAdmin.register Plant do
   permit_params :name, :description, :price, :category_id, images: []
   filter :name
   filter :price
-  filter :category
+  filter :category_id, as: :select, collection: -> { Category.all.map { |c| [c.category_name, c.id] } }
 
   index do
     selectable_column
     id_column
     column :name
     column :price
-    column :category
+    column "Category" do |plant|
+      plant.category.category_name
+    end
     column "Images" do |plant|
       plant.images.count
     end

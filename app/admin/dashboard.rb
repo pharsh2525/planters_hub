@@ -5,6 +5,7 @@ ActiveAdmin.register_page "Dashboard" do
     panel "Data Management" do
       ul do
         li link_to "Manage Plants", admin_plants_path
+        li link_to "Manage Categories", admin_categories_path
         # Add more links for other models
       end
     end
