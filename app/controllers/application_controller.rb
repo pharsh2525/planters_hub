@@ -19,4 +19,12 @@ class ApplicationController < ActionController::Base
   def after_sign_in_path_for(resource)
     session[:return_to] || root_path
   end
+
+  def authenticate_admin_user!
+    authenticate_user!
+    unless current_user.is_admin?
+      flash[:alert] = "You are not authorized to access this page."
+      redirect_to root_path
+    end
+  end
 end

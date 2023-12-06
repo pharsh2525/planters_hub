@@ -3,13 +3,18 @@
 <div class="card mb-3">
   <div class="card-body">
     <div class="row align-items-center">
-      <!-- Product Image -->
-      <div class="col-md-2">
-        <%= image_tag(plant.images.first,alt: "#{plant.name} image", class: 'img-fluid rounded') if plant.images.attached? %>
-      </div>
-      <!-- Product Name -->
-      <div class="col-md-4">
-        <h5 class="card-title"><%= plant.name %></h5>
+      <!-- Product Image and Name as clickable link -->
+      <div class="col-md-6">
+        <%= link_to plant_path(plant), class: 'text-decoration-none text-dark' do %>
+          <div class="row align-items-center">
+            <div class="col-md-4">
+              <%= image_tag(plant.images.first, alt: "#{plant.name} image", class: 'img-fluid rounded') if plant.images.attached? %>
+            </div>
+            <div class="col-md-8">
+              <h5 class="card-title"><%= plant.name %></h5>
+            </div>
+          </div>
+        <% end %>
       </div>
       <!-- Product Price -->
       <div class="col-md-2">

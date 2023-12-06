@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  ActiveAdmin.routes(self)
   resources :plants, only: [:index, :show]
   devise_for :users
   root 'home#index'

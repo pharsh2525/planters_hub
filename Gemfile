@@ -30,6 +30,8 @@ gem "jbuilder"
 gem 'mini_magick'
 gem 'image_processing'
 gem 'devise'
+gem 'activeadmin'
+gem 'sassc'
 
 
 # Use Redis adapter to run Action Cable in production
