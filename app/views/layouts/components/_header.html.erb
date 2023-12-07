@@ -37,9 +37,15 @@
                 Welcome <%= current_user.first_name %>
               </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                <li>
-                  <%= link_to 'My Account', my_account_path, class: 'dropdown-item fs-5' %>
-                </li>
+                 <% if current_user.is_admin %>
+                  <li>
+                    <%= link_to 'Dashboard', admin_dashboard_path, class: 'dropdown-item fs-5' %>
+                  </li>
+                <% else %>
+                  <li>
+                    <%= link_to 'My Account', my_account_path, class: 'dropdown-item fs-5' %>
+                  </li>
+                <% end %>
                 <li>
                   <%= link_to 'Logout', destroy_user_session_path, method: :delete, data: { turbo_method: :delete }, class: 'dropdown-item fs-5' %>
                 </li>

@@ -8,7 +8,7 @@ class Address < ApplicationRecord
   validates :postal_code, format: { with: /\A[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d\z/ }
 
   def self.ransackable_attributes(auth_object = nil)
-    %w[id street_address city postal_code user_id province_id] # Add other searchable attributes
+    %w[id address city postal_code user_id province_id] # Add other searchable attributes
   end
 
   def self.ransackable_associations(auth_object = nil)

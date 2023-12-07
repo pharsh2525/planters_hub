@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     get 'checkout', to: 'carts#checkout', as: 'checkout'
   end
 
+  resources :orders, only: [:index, :show]
+  resources :addresses
+
   patch 'cart/update_quantity/:plant_id', to: 'carts#update_quantity', as: 'update_quantity_cart'
 
   delete '/admin/plants/:plant_id/delete_image/:image_id', to: 'admin/plants#delete_image', as: :admin_plant_delete_image

@@ -4,6 +4,7 @@ ActiveAdmin.register_page "Dashboard" do
   content title: proc { I18n.t("active_admin.dashboard") } do
     panel "Data Management" do
       ul do
+        li link_to "Mangae Users", admin_users_path
         li link_to "Manage Plants", admin_plants_path
         li link_to "Manage Categories", admin_categories_path
         li link_to "Manage Provinces", admin_provinces_path

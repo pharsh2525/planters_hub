@@ -4,7 +4,7 @@ ActiveAdmin.register Address do
   index do
     selectable_column
     id_column
-    column :street_address
+    column :address
     column :city
     column :postal_code
     column :user
@@ -19,7 +19,7 @@ ActiveAdmin.register Address do
 
   form do |f|
     f.inputs do
-      f.input :street_address
+      f.input :address
       f.input :city
       f.input :postal_code
       f.input :user, as: :select, collection: User.all
