@@ -32,6 +32,8 @@ gem 'image_processing'
 gem 'devise'
 gem 'activeadmin'
 gem 'sassc'
+gem 'stripe'
+gem 'dotenv-rails'
 
 
 # Use Redis adapter to run Action Cable in production
