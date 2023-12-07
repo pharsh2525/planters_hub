@@ -18,4 +18,12 @@ class User < ApplicationRecord
     # If there are associations like :passwords, exclude them here
     super - ['some_sensitive_association']
   end
+
+  def stripe_customer
+    return Stripe::Customer.retrieve(stripe_customer_id) if stripe_customer_id
+
+    customer = Stripe::Customer.create(email: email)
+    update(stripe_customer_id: customer.id)
+    customer
+  end
 end

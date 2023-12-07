@@ -1,0 +1,47 @@
+<!-- app/views/payment_methods/new.html.erb -->
+<div class="container mt-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-12 col-sm-10 col-md-8 col-lg-6 bg-light p-5">
+      <h2 class="text-center mb-4">Add Payment Method</h2>
+      <%= form_tag payment_methods_path, id: 'payment-form', class: 'needs-validation' do %>
+        <div class="form-group mb-3">
+          <label for="card-element" class="form-label">Credit or Debit Card</label>
+          <div id="card-element" class="form-control stripe-card-element">
+            <!-- Stripe Elements will go here -->
+          </div>
+          <div id="card-errors" role="alert" class="invalid-feedback"></div>
+        </div>
+
+        <div class="actions mt-4">
+          <button id="submit-button" class="btn btn-primary w-100">Submit Payment</button>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    var stripe = Stripe('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>'); // Use your Stripe public key
+    var elements = stripe.elements();
+    var style = {
+      base: {
+        color: "#32325d",
+        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
+        fontSmoothing: "antialiased",
+        fontSize: "16px",
+        "::placeholder": {
+          color: "#aab7c4"
+        }
+      },
+      invalid: {
+        color: "#fa755a",
+        iconColor: "#fa755a"
+      }
+    };
+    var card = elements.create('card', { style: style });
+    card.mount('#card-element');
+
+    // ... rest of your Stripe Elements integration ...
+  });
+</script>

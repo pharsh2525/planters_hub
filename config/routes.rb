@@ -17,6 +17,8 @@ Rails.application.routes.draw do
 
   resources :orders, only: [:index, :show]
   resources :addresses
+  resources :payment_methods
+
 
   patch 'cart/update_quantity/:plant_id', to: 'carts#update_quantity', as: 'update_quantity_cart'
 
