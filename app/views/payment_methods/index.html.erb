@@ -1,0 +1,25 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-12">
+      <h2>Your Payment Methods</h2>
+      <%= link_to 'Add New Payment Method', new_payment_method_path, class: 'btn btn-primary mb-3' %>
+      <% if @payment_methods.data.empty? %>
+        <p>No payment methods found.</p>
+      <% else %>
+        <ul class="list-group">
+          <% @payment_methods.data.each do |payment_method| %>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <%= payment_method.card.brand.titleize %> ending in <%= payment_method.card.last4 %>
+              <div>
+                Expiry: <%= payment_method.card.exp_month %>/<%= payment_method.card.exp_year %>
+                <%= form_tag payment_method_path(payment_method.id), method: :delete, class: "d-inline" do %>
+                  <%= submit_tag "Delete", class: "btn btn-danger btn-sm", data: { confirm: "Are you sure?" } %>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+  </div>
+</div>

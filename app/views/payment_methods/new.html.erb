@@ -1,47 +1,111 @@
 <!-- app/views/payment_methods/new.html.erb -->
-<div class="container mt-5 mb-5">
-  <div class="row justify-content-center">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-6 bg-light p-5">
-      <h2 class="text-center mb-4">Add Payment Method</h2>
-      <%= form_tag payment_methods_path, id: 'payment-form', class: 'needs-validation' do %>
-        <div class="form-group mb-3">
-          <label for="card-element" class="form-label">Credit or Debit Card</label>
-          <div id="card-element" class="form-control stripe-card-element">
-            <!-- Stripe Elements will go here -->
-          </div>
-          <div id="card-errors" role="alert" class="invalid-feedback"></div>
-        </div>
+<style>
+  .card-container {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,.1);
+  }
 
-        <div class="actions mt-4">
-          <button id="submit-button" class="btn btn-primary w-100">Submit Payment</button>
+  .stripe-input {
+    border: 1px solid #ced4da;
+    border-radius: 4px;
+    padding: 8px 12px;
+    margin-bottom: 20px;
+  }
+
+  .btn-custom {
+    background-color: #007bff; /* Bootstrap primary color */
+    border-color: #007bff;
+    color: white;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+    margin-right: 8px;
+  }
+
+  .btn-custom-outline {
+    background-color: transparent;
+    border-color: #6c757d; /* Bootstrap secondary color */
+    color: #6c757d;
+    padding: 10px 16px;
+    font-size: 16px;
+    border-radius: 4px;
+  }
+
+  .btn-block {
+    width: 100%;
+    display: block;
+  }
+</style>
+
+<!-- Your existing form code -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card card-container">
+        <div class="card-body">
+          <h5 class="card-title text-center mb-4">Add New Card</h5>
+          <%= form_tag payment_methods_path, id: 'payment-form', class: 'needs-validation' do %>
+
+            <div id="card-element" class="stripe-input">
+              <!-- A Stripe Element will be inserted here. -->
+            </div>
+            <input type="text" id="name_on_card" name="name_on_card" class="form-control stripe-input" placeholder="Name on card" required>
+
+            <div id="card-errors" role="alert" class="text-danger mb-3"></div>
+
+            <button id="submit-button" class="btn btn-custom btn-block">Add Card</button>
+            <%= link_to 'Cancel', payment_methods_path, class: 'btn btn-custom-outline btn-block' %>
+
+
+          <% end %>
         </div>
-      <% end %>
+      </div>
     </div>
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var stripe = Stripe('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>'); // Use your Stripe public key
-    var elements = stripe.elements();
-    var style = {
-      base: {
-        color: "#32325d",
-        fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-        fontSmoothing: "antialiased",
-        fontSize: "16px",
-        "::placeholder": {
-          color: "#aab7c4"
-        }
-      },
-      invalid: {
-        color: "#fa755a",
-        iconColor: "#fa755a"
-      }
-    };
-    var card = elements.create('card', { style: style });
-    card.mount('#card-element');
+    const stripe = Stripe('<%= ENV["STRIPE_PUBLISHABLE_KEY"] %>');
+    const elements = stripe.elements();
+    const cardElement = elements.create('card');
 
-    // ... rest of your Stripe Elements integration ...
+    cardElement.mount('#card-element');
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+      const nameOnCard = document.getElementById('name_on_card').value;
+
+      stripe.createPaymentMethod({
+        type: 'card',
+        card: cardElement,
+        billing_details: {
+          name: nameOnCard,
+        },
+      }).then(function(result) {
+        if (result.error) {
+          // Show error in your UI
+          const errorElement = document.getElementById('card-errors');
+          errorElement.textContent = result.error.message;
+        } else {
+          // Submit the PaymentMethod ID and Name to your server
+          const hiddenInput = document.createElement('input');
+          hiddenInput.setAttribute('type', 'hidden');
+          hiddenInput.setAttribute('name', 'payment_method_id');
+          hiddenInput.setAttribute('value', result.paymentMethod.id);
+          form.appendChild(hiddenInput);
+
+          // Optionally, add the name to the form as well
+          const nameInput = document.createElement('input');
+          nameInput.setAttribute('type', 'hidden');
+          nameInput.setAttribute('name', 'name_on_card');
+          nameInput.setAttribute('value', nameOnCard);
+          form.appendChild(nameInput);
+
+          form.submit();
+        }
+      });
+    });
   });
 </script>
