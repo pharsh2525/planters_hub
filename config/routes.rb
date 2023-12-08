@@ -13,12 +13,16 @@ Rails.application.routes.draw do
     delete 'remove/:plant_id', to: 'carts#remove', as: 'remove_from'
     delete 'clear', to: 'carts#clear', as: 'clear'
     get 'checkout', to: 'carts#checkout', as: 'checkout'
+    post 'update_address', to: 'carts#update_address', as: 'update_address'
+    post 'place_order', to: 'carts#place_order', as: 'place_order'
   end
+
+  # Add a route for the success page after placing an order
+  get 'order_success/:id', to: 'orders#success', as: 'order_success'
 
   resources :orders, only: [:index, :show]
   resources :addresses
   resources :payment_methods
-
 
   patch 'cart/update_quantity/:plant_id', to: 'carts#update_quantity', as: 'update_quantity_cart'
 
