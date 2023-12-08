@@ -9,7 +9,9 @@
         <%= select_tag :address_id, options_from_collection_for_select(@user_addresses, :id, :address), include_blank: 'Select Address', class: 'form-control', id: 'address-select' %>
       </div>
 
+
       <%= form_with(url: place_order_cart_path, method: :post, id: 'place-order-form', class: 'mt-4') do |form| %>
+      <%= form.hidden_field :address_id, id: 'hidden-address-id' %>
         <!-- Payment Method Selection -->
         <div class="form-group">
           <%= form.label :payment_method_id, "Select Payment Method", class: 'form-label' %>
@@ -38,6 +40,7 @@
 
 <script>
   document.getElementById('address-select').addEventListener('change', function() {
+    document.getElementById('hidden-address-id').value = this.value;
     var addressId = this.value;
     var subtotal = parseFloat(document.getElementById('subtotal-display').innerText.replace(/[^0-9.-]+/g,""));
     fetch('<%= update_address_cart_path %>', {

@@ -1,0 +1,14 @@
+<!-- app/views/carts/order_success.html.erb -->
+<div class="container">
+  <h1>Order Confirmation</h1>
+  <p>Thank you for your order!</p>
+
+  <div>
+    <h3>Order Summary:</h3>
+    <p>Order Number: <%= @order.id %></p>
+    <p>Order Total: <%= number_to_currency(@order.total) %></p>
+    <!-- Display other order details as needed -->
+  </div>
+
+  <!-- Add more information about the order, shipping details, etc. -->
+</div>

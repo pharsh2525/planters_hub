@@ -89,18 +89,73 @@ class CartsController < ApplicationController
 
 
   def place_order
+    # Retrieve the necessary data
+    load_cart
     payment_method_id = params[:payment_method_id]
-    total_amount = calculate_total_price
+    address_id = params[:address_id]
+
+    # Calculate the total amount
+    subtotal = calculate_subtotal
+    selected_address = Address.find(address_id)
+    tax_rates = fetch_tax_rates(selected_address.province_id)
+    pst_amount = subtotal * tax_rates[:pst]
+    gst_amount = subtotal * tax_rates[:gst]
+    hst_amount = subtotal * tax_rates[:hst]
+
+    total_amount = subtotal + pst_amount + gst_amount + hst_amount
 
     begin
-      process_payment(payment_method_id, total_amount)
-      create_order(total_amount)
-      session[:cart] = [] # Clear the cart
-      redirect_to success_path, notice: 'Order successfully placed.'
+      # Create order in database first
+      order = current_user.orders.create!(
+        address_id: address_id,
+        subtotal: subtotal,
+        gst_amount: gst_amount,
+        pst_amount: pst_amount,
+        hst_amount: hst_amount,
+        total: total_amount,
+        status: 'pending', # initially set the status to pending
+      )
+
+      # Now process payment with the order ID
+      customer_id = current_user.stripe_customer_id
+      charge = process_payment(payment_method_id, (total_amount * 100).to_i, order.id, customer_id)
+
+      if charge.status == 'succeeded'
+        # Update order status and payment confirmation
+        order.update(status: 'completed', payment_confirmation: charge.id)
+
+        # Create order items
+        session[:cart].each do |item|
+          order.order_items.create!(
+            plant_id: item["plant_id"],
+            quantity: item["quantity"],
+            unit_price: Plant.find(item["plant_id"]).price
+          )
+        end
+
+        # Clear the cart
+        session[:cart] = []
+
+        # Redirect to success page
+        redirect_to order_success_cart_path(order), notice: 'Order successfully placed.'
+      else
+        # Handle failed payment
+        order.destroy # Cleanup the created order
+        redirect_to checkout_cart_path, alert: 'Payment failed.'
+      end
     rescue Stripe::StripeError => e
-      redirect_to cart_checkout_path, alert: e.message
+      # Handle payment failure
+      redirect_to checkout_cart_path, alert: e.message
     end
   end
+
+  # app/controllers/carts_controller.rb
+    def order_success
+      @order = current_user.orders.find(params[:id])
+      # Additional logic if needed
+    end
+
+
 
   private
 
@@ -146,9 +201,18 @@ class CartsController < ApplicationController
     end
   end
 
-  def process_payment(payment_method_id, total_amount)
-    Stripe::PaymentIntent.create(amount: total_amount, currency: 'usd', payment_method: payment_method_id, confirm: true)
+  def process_payment(payment_method_id, total_amount, order_id, customer_id)
+    Stripe::PaymentIntent.create(
+      amount: total_amount,
+      currency: 'cad',
+      payment_method: payment_method_id,
+      confirm: true,
+      customer: customer_id, # Add the customer ID here
+      return_url: order_success_cart_url(id: order_id)
+    )
   end
+
+
 
   def create_order(total_amount)
     order = current_user.orders.create!(total: total_amount, status: 'completed')
@@ -156,12 +220,4 @@ class CartsController < ApplicationController
       order.order_items.create!(plant_id: item[:plant].id, quantity: item[:quantity], unit_price: item[:plant].price)
     end
   end
-
-  def convert_cart_items
-    @cart_items = @cart_items.map do |item|
-      plant = Plant.find(item["plant_id"])
-      { plant: plant, quantity: item["quantity"] }
-    end
-  end
-
 end

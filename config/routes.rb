@@ -15,6 +15,9 @@ Rails.application.routes.draw do
     get 'checkout', to: 'carts#checkout', as: 'checkout'
     post 'update_address', to: 'carts#update_address', as: 'update_address'
     post 'place_order', to: 'carts#place_order', as: 'place_order'
+    # config/routes.rb
+    get 'order_success/:id', to: 'carts#order_success', as: 'order_success'
+
   end
 
   # Add a route for the success page after placing an order
