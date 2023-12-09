@@ -17,8 +17,9 @@ Rails.application.routes.draw do
     post 'place_order', to: 'carts#place_order', as: 'place_order'
     # config/routes.rb
     get 'order_success/:id', to: 'carts#order_success', as: 'order_success'
-
   end
+
+  get 'pages/:slug', to: 'pages#show', as: :page
 
   # Add a route for the success page after placing an order
   get 'order_success/:id', to: 'orders#success', as: 'order_success'
