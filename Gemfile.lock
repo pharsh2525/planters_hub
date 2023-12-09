@@ -155,6 +155,9 @@ GEM
     kaminari-activerecord (1.2.2)
       activerecord
       kaminari-core (= 1.2.2)
+    kaminari-bootstrap (3.0.1)
+      kaminari (>= 0.13.0)
+      rails
     kaminari-core (1.2.2)
     loofah (2.21.3)
       crass (~> 1.0.2)
@@ -293,6 +296,8 @@ DEPENDENCIES
   image_processing
   importmap-rails
   jbuilder
+  kaminari
+  kaminari-bootstrap
   mini_magick
   puma (~> 5.0)
   rails (~> 7.0.8)
