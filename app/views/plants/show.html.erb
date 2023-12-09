@@ -5,17 +5,17 @@
     <div class="col-12 col-md-4"> <!-- Adjusted to col-md-4 for a smaller image column -->
       <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
         <div class="carousel-indicators">
-          <% @plant.images.each_with_index do |_, index| %>
-            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" class="<%= 'active' if index.zero? %>" aria-current="true" aria-label="Slide <%= index + 1 %>"></button>
-          <% end %>
-        </div>
-        <div class="carousel-inner">
-          <% @plant.images.each_with_index do |image, index| %>
-            <div class="carousel-item <%= 'active' if index.zero? %>">
-              <%= image_tag(image, class: 'd-block w-100 img-fluid') %> <!-- Removed the custom styling for a full-width image -->
-            </div>
-          <% end %>
-        </div>
+        <% @plant.images.each_with_index do |_, index| %>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%= index %>" class="<%= 'active' if index.zero? %>" aria-current="true" aria-label="Slide <%= index + 1 %>"></button>
+        <% end %>
+      </div>
+      <div class="carousel-inner">
+        <% @plant.images.each_with_index do |image, index| %>
+          <div class="carousel-item <%= 'active' if index.zero? %>">
+            <%= image_tag(image, class: 'd-block w-100 img-fluid', alt: "#{@plant.name} image #{index + 1}") %>
+          </div>
+        <% end %>
+      </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
           <span class="carousel-control-prev-icon" aria-hidden="true"></span>
           <span class="visually-hidden">Previous</span>

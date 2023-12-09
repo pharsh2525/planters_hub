@@ -16,7 +16,7 @@
             <%= link_to "Plants", plants_path, class:"nav-link fs-5 m-2" %>
           </li>
           <li class="nav-item dropdown">
-            <a class="nav-link dropdown-toggle fs-5 m-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            <a class="nav-link dropdown-toggle fs-5 m-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" id="categoriesDropdown">
               Categories
             </a>
             <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
@@ -28,7 +28,7 @@
         </ul>
         <%= search_form_for plant_search_query, url: plants_path, class: "d-flex", method: :get do |f| %>
           <%= f.search_field :name_or_description_cont, class: "form-control fs-5", placeholder: "Search Plants" %>
-          <%= f.collection_select :category_id_eq, Category.all, :id, :category_name, include_blank: "All Categories", class: "form-select fs-5" %>
+          <%= f.collection_select :category_id_eq, Category.all, :id, :category_name, include_blank: "Search All", class: "form-select fs-5" %>
           <%= f.submit "Search", class: "btn btn-outline-success fs-5 m-2" %>
         <% end %>
 
