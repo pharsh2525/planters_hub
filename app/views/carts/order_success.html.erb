@@ -1,14 +1,51 @@
 <!-- app/views/carts/order_success.html.erb -->
-<div class="container">
-  <h1>Order Confirmation</h1>
-  <p>Thank you for your order!</p>
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-8 offset-md-2">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h1 class="card-title text-center">Order Confirmation</h1>
+          <p class="text-center">Thank you for your order!</p>
 
-  <div>
-    <h3>Order Summary:</h3>
-    <p>Order Number: <%= @order.id %></p>
-    <p>Order Total: <%= number_to_currency(@order.total) %></p>
-    <!-- Display other order details as needed -->
+          <hr>
+
+          <div>
+            <h3>Order Summary:</h3>
+            <p><strong>Order Number:</strong> <%= @order.id %></p>
+            <p><strong>Order Total:</strong> <%= number_to_currency(@order.total) %></p>
+
+            <!-- Display other order details as needed -->
+
+            <!-- Example: List of items in the order -->
+            <div class="mt-4">
+              <h4>Items in Your Order:</h4>
+              <ul class="list-group list-group-flush">
+                <% @order.order_items.each do |item| %>
+                  <li class="list-group-item">
+                    <%= item.plant.name %> (Quantity: <%= item.quantity %>) -
+                    <%= number_to_currency(item.unit_price) %>
+                  </li>
+                <% end %>
+              </ul>
+            </div>
+
+            <!-- Example: Shipping details, if available -->
+            <% if @order.address %>
+              <div class="mt-4">
+                <h4>Shipping To:</h4>
+                <p><%= @order.address.full_address %></p>
+              </div>
+            <% end %>
+
+            <!-- Add more information about the order, shipping details, etc. -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Link to return to some part of your site, e.g., the user's order history or the main page -->
+      <div class="text-center mt-4">
+        <%= link_to 'View Your Order History', orders_path, class: 'btn btn-primary' %>
+      </div>
+    </div>
   </div>
-
-  <!-- Add more information about the order, shipping details, etc. -->
 </div>

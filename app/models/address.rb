@@ -14,4 +14,12 @@ class Address < ApplicationRecord
   def self.ransackable_associations(auth_object = nil)
     %w[user province] # Add other associations you want to search by
   end
+
+  def full_address
+    [address, city, postal_code, province_name].compact.join(', ')
+  end
+
+  def province_name
+    province.name
+  end
 end

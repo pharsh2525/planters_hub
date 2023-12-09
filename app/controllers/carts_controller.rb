@@ -122,7 +122,7 @@ class CartsController < ApplicationController
 
       if charge.status == 'succeeded'
         # Update order status and payment confirmation
-        order.update(status: 'completed', payment_confirmation: charge.id)
+        order.update(status: 'Paid', payment_confirmation: charge.id)
 
         # Create order items
         session[:cart].each do |item|
