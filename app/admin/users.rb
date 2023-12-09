@@ -48,7 +48,7 @@ ActiveAdmin.register User do
 
     panel "Addresses" do
       table_for user.addresses do
-        column :street_address
+        column :address
         column :city
         column :postal_code
         column :province do |address|

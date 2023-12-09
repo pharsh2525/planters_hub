@@ -31,7 +31,7 @@ ActiveAdmin.register Address do
 
   show do |address|
     attributes_table do
-      row :street_address
+      row :address
       row :city
       row :postal_code
       row :user
