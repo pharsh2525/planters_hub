@@ -19,10 +19,10 @@
             <a class="nav-link dropdown-toggle fs-5 m-2" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
               Categories
             </a>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item fs-5" href="#">Action</a></li>
-              <li><a class="dropdown-item fs-5" href="#">Another action</a></li>
-              <li><a class="dropdown-item fs-5" href="#">Something else here</a></li>
+            <ul class="dropdown-menu" aria-labelledby="categoriesDropdown">
+              <% Category.all.each do |category| %>
+                <li><%= link_to category.category_name, category_path(category), class: "dropdown-item fs-5" %></li>
+              <% end %>
             </ul>
           </li>
         </ul>

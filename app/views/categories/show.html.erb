@@ -1,0 +1,20 @@
+<div class="container">
+  <h1><%= @category.category_name %></h1>
+  <div class="row">
+    <% @plants.each do |plant| %>
+      <div class="col-md-3">
+        <%= link_to plant_path(plant), class: 'card h-100 text-decoration-none text-dark' do %>
+          <div class="card h-100">
+            <% if plant.images.attached? %>
+              <%= image_tag plant.images.first, alt: "#{plant.name} image", class: 'card-img-top img-fluid' %>
+            <% end %>
+            <div class="card-body">
+              <h5 class="card-title"><%= plant.name %></h5>
+              <p class="card-price"><%= number_to_currency(plant.price) %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>

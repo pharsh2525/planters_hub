@@ -1,0 +1,11 @@
+<!-- app/views/categories/index.html.erb -->
+<div class="container">
+  <h1>Shop by Category</h1>
+  <% @categories.each do |category| %>
+    <div class="card my-2">
+      <div class="card-body">
+        <%= link_to category.category_name, category_path(category), class: "stretched-link" %>
+      </div>
+    </div>
+  <% end %>
+</div>
