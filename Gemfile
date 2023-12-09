@@ -36,6 +36,8 @@ gem 'stripe'
 gem 'dotenv-rails'
 gem 'kaminari'
 gem 'kaminari-bootstrap'
+gem 'ransack'
+
 
 
 
