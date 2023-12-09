@@ -1,0 +1,12 @@
+<%# app/views/orders/index.html.erb %>
+<div class="container">
+  <h1>Your Orders</h1>
+  <div class="list-group">
+    <% @orders.each do |order| %>
+      <a href="<%= order_path(order) %>" class="list-group-item list-group-item-action">
+        Order #<%= order.id %> - Placed on <%= order.created_at.strftime('%B %d, %Y') %>
+        <span class="badge badge-secondary float-right">Total: <%= number_to_currency(order.total) %></span>
+      </a>
+    <% end %>
+  </div>
+</div>

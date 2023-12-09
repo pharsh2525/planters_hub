@@ -1,0 +1,58 @@
+<!-- app/views/orders/show.html.erb -->
+<div class="container mt-5">
+  <div class="text-center mb-4">
+    <h1>Thank you!</h1>
+    <h2>It's on the way!</h2>
+    <p>Your order #<%= @order.id %> has shipped and will be with you soon.</p>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <% @order.order_items.each do |item| %>
+        <div class="card mb-3">
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-3">
+                <%= image_tag(item.plant.images.first.variant(resize: '150x150'), class: 'img-thumbnail', alt: item.plant.name) if item.plant.images.attached? %>
+              </div>
+              <div class="col-md-9">
+                <h5 class="card-title"><%= item.plant.name %></h5>
+                <p class="card-text">Quantity: <%= item.quantity %> | Price: <%= number_to_currency(item.unit_price) %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h4>Shipping Address</h4>
+          <p><%= @order.address.full_address %></p>
+        </div>
+        <div class="col-md-6">
+          <h4>Billing Address</h4>
+          <p><%= @order.address.full_address %></p>
+        </div>
+      </div>
+
+      <div class="card mt-4">
+        <div class="card-body">
+          <h4 class="card-title">Cost Summary</h4>
+          <ul class="list-group list-group-flush">
+            <li class="list-group-item">Subtotal: <%= number_to_currency(@order.subtotal) %></li>
+            <% if @order.gst_amount.positive? %>
+              <li class="list-group-item">GST: <%= number_to_currency(@order.gst_amount) %></li>
+            <% end %>
+            <% if @order.pst_amount.positive? %>
+              <li class="list-group-item">PST: <%= number_to_currency(@order.pst_amount) %></li>
+            <% end %>
+            <% if @order.hst_amount.positive? %>
+              <li class="list-group-item">HST: <%= number_to_currency(@order.hst_amount) %></li>
+            <% end %>
+            <li class="list-group-item fw-bold">Total: <%= number_to_currency(@order.total) %></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
