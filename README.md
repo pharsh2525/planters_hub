@@ -66,4 +66,8 @@ As this is a project for educational purposes, contributions, suggestions, and f
 ### The data in this project has been scrapped from https://piante.ca/ *For educational purposes.
 
 ## License
-This project is open-sourced under the [MIT license](LICENSE.txt).
+This project is open-sourced
+
+## Admin User Access
+Email: admin@planter.com
+Password: password
